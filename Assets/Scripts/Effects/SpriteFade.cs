@@ -11,6 +11,6 @@ public class Fade : Effect
 
     protected override void InitializeEffect()
     {
-        GetComponent<SpriteRenderer>()?.DOFade(_endValue, _duration);
+        GetComponent<SpriteRenderer>().DOFade(_endValue, _duration);
     }
 }

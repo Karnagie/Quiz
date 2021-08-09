@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class Cell : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer _image;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private CellEffector _effector;
 
     private bool _isRight;
@@ -12,7 +12,7 @@ public class Cell : MonoBehaviour
 
     public void SetData(Sprite sprite, bool isRight)
     {
-        _image.sprite = sprite;
+        _spriteRenderer.sprite = sprite;
         _isRight = isRight;
     }
 

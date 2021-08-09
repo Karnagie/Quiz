@@ -18,24 +18,29 @@ public class GridTransform : MonoBehaviour
 
     public void SetGrid(int xCells, int yCells, GameObject[] cells)
     {
-        CellQueue<GameObject> mixed = new CellQueue<GameObject>(cells);
-        mixed.Shuffle();
+        CellQueue<GameObject> mixedCells = new CellQueue<GameObject>(cells);
+        mixedCells.Shuffle();
 
         _background.transform.localScale = _defaultSize;
         float cellSize = (_cellSize + _cellMargin);
-        Vector3 backgroundScale = _background.transform.localScale;
-        backgroundScale.x *= xCells * cellSize + _backgroundBorder;
-        backgroundScale.y *= yCells * cellSize + _backgroundBorder;
-        _background.transform.localScale = backgroundScale;
+        SetBackgroundSize(xCells, yCells, cellSize);
 
         for (int i = 0; i < yCells; i++)
         {
             for (int n = 0; n < xCells; n++)
             {
-                GameObject g = mixed.GetNext();
+                GameObject g = mixedCells.GetNext();
                 g.transform.position = CalculatePosition(xCells, yCells, n, i, cellSize);
             }
         }
+    }
+
+    private void SetBackgroundSize(int xCells, int yCells, float cellSize)
+    {
+        Vector3 backgroundScale = _background.transform.localScale;
+        backgroundScale.x *= xCells * cellSize + _backgroundBorder;
+        backgroundScale.y *= yCells * cellSize + _backgroundBorder;
+        _background.transform.localScale = backgroundScale;
     }
 
     private Vector3 CalculatePosition(int rows, int columns, int x, int y, float  cellSize)

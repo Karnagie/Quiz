@@ -11,9 +11,9 @@ public class GridLogic : MonoBehaviour
     [SerializeField] private LevelUI _levelUI;
 
     private CellBundleData _currentBundle;
-    private CellQueue<Sprite> _queue;
-    private int answerId;
-    private int levelId;
+    private CellQueue<Sprite> _cellSprites;
+    private int _answerId;
+    private int _levelId;
 
     private void Start()
     {
@@ -23,23 +23,23 @@ public class GridLogic : MonoBehaviour
         {
             sprites[i] = _currentBundle.Cells[i].Sprite;
         }
-        _queue = new CellQueue<Sprite>(sprites);
-        _queue.Shuffle();
+        _cellSprites = new CellQueue<Sprite>(sprites);
+        _cellSprites.Shuffle();
         NextLevel();
     }
 
     private void NextLevel()
     {
-        if(levelId >= _levels.Length)
+        if(_levelId >= _levels.Length)
         {
             _levelUI.EndLevel();
             return;
         }
-        _gridSpawner.Spawn(_levels[levelId], _queue.ToArray(), answerId, () => { NextLevel(); });
-        SetTask(_currentBundle.Cells[_queue.GetNativeId()].Name);
-        _queue.GetNext();
-        answerId = _queue.Id;
-        levelId++;
+        _gridSpawner.Spawn(_levels[_levelId], _cellSprites.ToArray(), _answerId, () => { NextLevel(); });
+        SetTask(_currentBundle.Cells[_cellSprites.GetNativeId()].Name);
+        _cellSprites.GetNext();
+        _answerId = _cellSprites.Id;
+        _levelId++;
     }
 
     private void SetTask(string name)

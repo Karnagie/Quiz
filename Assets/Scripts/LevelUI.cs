@@ -18,9 +18,4 @@ public class LevelUI : MonoBehaviour
     {
         _endScreen.SetActive(true);
     }
-
-    public void RestartLevel()
-    {
-        _levelLoader.LoadLevel(0);
-    }
 }

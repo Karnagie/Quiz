@@ -5,13 +5,12 @@ using UnityEngine.Events;
 
 public class CellEffector : MonoBehaviour
 {
-    [SerializeField] protected UnityEvent _onStartEvent;
+    [SerializeField] private UnityEvent _onStartEvent;
     [SerializeField] private UnityEvent _onFailEvent;
     [SerializeField] private UnityEvent _onRightEvent;
-    [SerializeField] private GridLogic _logic;
     [SerializeField] private float _delay = 1;
 
-    private Action onRight;
+    private Action _onRightAction;
 
     protected void Start()
     {
@@ -20,7 +19,7 @@ public class CellEffector : MonoBehaviour
 
     public void Invoke()
     {
-        if (onRight != null)
+        if (_onRightAction != null)
         {
             StartCoroutine(Delay(_delay));
         }
@@ -29,13 +28,13 @@ public class CellEffector : MonoBehaviour
 
     public void SetActionOnRight(Action action)
     {
-        onRight = action;
+        _onRightAction = action;
     }
 
     private IEnumerator Delay(float time)
     {
         _onRightEvent.Invoke();
         yield return new WaitForSeconds(time);
-        onRight.Invoke();
+        _onRightAction.Invoke();
     }
 }
